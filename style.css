@@ -1,0 +1,210 @@
+/* =========================
+   MinPanda Navigation Bar
+   ========================= */
+
+.minpanda-header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 12px 5px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.minpanda-header a {
+    text-decoration: none;
+    color: #a0a0a0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    transition: all 0.2s ease;
+}
+
+.minpanda-header a::first-letter {
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+}
+
+.minpanda-header a:hover,
+.minpanda-header a:active {
+    color: #1a1a1a;
+    background-color: #ffcf24;
+    box-shadow: 0 4px 12px rgba(255, 207, 36, 0.3);
+    transform: translateY(-2px);
+}
+
+.minpanda-divider {
+    border: none;
+    height: 1px;
+    background-color: #f0f0f0;
+    margin: 0 0 20px 0;
+}
+
+/* Base App Layout (Below the Header) */
+body {
+    background-color: #f8f9fa; /* Light gray background to make white cards pop */
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.app-content {
+    max-width: 480px; /* Mobile-first width */
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+/* Welcome Banner Styling */
+.welcome-banner {
+    margin-bottom: 30px;
+}
+
+.welcome-banner .greeting {
+    color: #757575;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.welcome-banner h1 {
+    margin: 0 0 8px 0;
+    font-size: 1.8rem;
+    color: #1a1a1a;
+    font-weight: 800;
+}
+
+.welcome-banner .subtitle {
+    margin: 0;
+    color: #555;
+    font-size: 1rem;
+}
+
+/* Action Cards Grid */
+.action-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Individual Card Styling */
+.action-card {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 16px;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 2px solid transparent;
+    transition: all 0.25s ease;
+}
+
+/* Hover & Active States */
+@media (hover: hover) {
+    .action-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    }
+}
+.action-card:active {
+    transform: translateY(1px);
+}
+
+/* Highlight the Main "Place Order" Button */
+.primary-card {
+    background-color: #fffbdf; /* Light MinPanda Yellow */
+    border-color: #ffcf24; /* Solid MinPanda Yellow */
+}
+
+/* Style the Admin button differently to separate it from customer actions */
+.admin-card {
+    margin-top: 10px;
+    background-color: #f0f0f0;
+    opacity: 0.9;
+}
+
+/* Card Internals */
+.card-icon {
+    font-size: 2rem;
+    margin-right: 16px;
+    background: #ffffff;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.primary-card .card-icon {
+    background: #ffcf24;
+}
+
+.card-details {
+    flex-grow: 1;
+}
+
+.card-details h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+}
+
+.card-details p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #757575;
+}
+
+.card-arrow {
+    color: #d4d4d4;
+    font-size: 1.2rem;
+}
+
+.action-card:hover .card-arrow {
+    color: #ffcf24;
+}
+/* Footer Container */
+.minpanda-footer {
+    text-align: center;
+    padding: 40px 20px 20px 20px;
+    margin-top: auto; /* Pushes footer to the bottom if content is short */
+    background-color: transparent;
+}
+
+/* Minimalist Text Styling */
+.minpanda-footer p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #a0a0a0; /* Very soft gray */
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: color 0.3s ease;
+    cursor: default;
+}
+
+/* * The Copyleft Trick: 
+ * Flips the standard copyright symbol horizontally 
+ */
+.copyleft {
+    display: inline-block;
+    transform: scaleX(-1);
+    font-size: 1rem;
+    margin-top: -2px; /* Vertically aligns it perfectly with lowercase text */
+}
+
+/* Cool subtle hover effect */
+.minpanda-footer p:hover {
+    color: #1a1a1a; /* Darkens to black on hover */
+}

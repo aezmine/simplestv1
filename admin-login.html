@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - MinPanda Food</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Setup the page background */
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Center the login card on the screen */
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            /* Prevents the card from sticking to the header */
+            margin-top: 20px; 
+        }
+
+        /* The white floating card */
+        .login-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 380px;
+            border-radius: 20px;
+            padding: 32px 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            border-top: 6px solid #ffcf24; /* MinPanda Yellow Accent */
+        }
+
+        .login-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .login-card h1 {
+            margin: 0 0 8px 0;
+            font-size: 1.6rem;
+            color: #1a1a1a;
+            font-weight: 800;
+        }
+
+        .login-card p {
+            margin: 0 0 24px 0;
+            font-size: 0.9rem;
+            color: #757575;
+        }
+
+        /* Input styling */
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            background-color: #fcfcfc;
+            text-align: center; /* Centers the password dots */
+            letter-spacing: 2px;
+        }
+
+        /* Glowing effect when typing */
+        .input-group input:focus {
+            outline: none;
+            border-color: #ffcf24;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(255, 207, 36, 0.15);
+        }
+
+        /* Big App-style Button */
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: #ffcf24;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(255, 207, 36, 0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(255, 207, 36, 0.4);
+            background-color: #ffc910;
+        }
+
+        .login-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(255, 207, 36, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="minpanda-header">
+        <a href="index.html">🏠 Home</a>
+        <a href="customer.html">🍔 Order Food</a>
+        <a href="queue.html">📋 Queue</a>
+        <a href="admin-login.html">⚙️ Admin</a>
+    </header>
+    <hr class="minpanda-divider">
+
+    <main class="login-wrapper">
+        <div class="login-card">
+            
+            <div class="login-icon">🐼🔐</div>
+            <h1>Admin Access</h1>
+            <p>Enter your password to manage the system</p>
+            <p>Aku Je woi Boleh masuk</p>
+
+            <div class="input-group">
+                <input 
+                    type="password" 
+                    id="password" 
+                    placeholder="Enter Password"
+                />
+            </div>
+
+            <button class="login-btn" onclick="login()">
+                Login
+            </button>
+            
+        </div>
+    </main>
+
+    <script type="module" src="admin-login.js"></script>
+<footer class="minpanda-footer">
+    <p>
+        <span class="copyleft">&copy;</span> copyleft by min - 2026
+    </p>
+</footer>
+</body>
+</html>
