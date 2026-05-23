@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Penasihat Makan 🤖 - MinPanda Food</title>
+  <meta name="description" content="Tak tahu nak makan apa? MinPanda AI Food Advisor akan tolong kau pilih makanan yang sesuai dengan mood, bajet, dan cuaca kau!" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+  <!-- MinPanda Standard Nav -->
+  <header class="minpanda-header">
+      <a href="index.html">🏠 Home</a>
+      <a href="customer.html">🍔 Order Food</a>
+      <a href="queue.html">📋 Queue</a>
+      <a href="reviews.html">⭐ Reviews</a>
+      <a href="food-advisor.html">🤖 AI Advisor</a>
+      <a href="admin-login.html">⚙️ Admin</a>
+  </header>
+  <hr class="minpanda-divider">
+
+  <!-- AI Chatbot Page -->
+  <div class="fa-chatbot-wrap">
+
+    <!-- ── Chat Messages ── -->
+    <div class="chat-area" id="chat-area">
+
+      <!-- Welcome -->
+      <div class="welcome" id="welcome-section">
+        <span class="welcome-emoji">🐼</span>
+        <h2>Tak tahu nak makan apa?</h2>
+        <p>Cakap je dengan MinPanda! Aku akan suggest makanan yang sesuai dengan mood, bajet, dan cuaca kau. 😋</p>
+      </div>
+
+      <!-- Quick Suggestions -->
+      <div class="suggestions-wrap" id="suggestions-section">
+        <p class="suggestions-label">Cuba tanya tentang…</p>
+        <div class="suggestions-grid">
+          <button class="chip" onclick="sendSuggestion('🌶️ Nak makan benda spicy')">🌶️ Spicy</button>
+          <button class="chip" onclick="sendSuggestion('🇲🇾 Recommend makanan Melayu')">🇲🇾 Malay Food</button>
+          <button class="chip" onclick="sendSuggestion('💰 Bajet dalam RM10 je, nak makan apa?')">💰 Budget
+            RM10</button>
+          <button class="chip" onclick="sendSuggestion('🌧️ Cuaca hujan, nak makan apa yang best?')">🌧️ Rainy
+            Day</button>
+          <button class="chip" onclick="sendSuggestion('🍔 Nak makan fast food, suggest sikit')">🍔 Fast Food</button>
+          <button class="chip" onclick="sendSuggestion('🥗 Nak makan sesuatu yang sihat')">🥗 Healthy</button>
+          <button class="chip" onclick="sendSuggestion('🎲 Surprise me! Suggest makanan random')">🎲 Surprise
+            Me</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Input Bar ── -->
+    <div class="input-section">
+      <div class="input-bar">
+        <textarea id="user-input" placeholder="Taip di sini… contoh: nak makan yang berkuah 🍜" rows="1"
+          autocomplete="off" spellcheck="false"></textarea>
+        <button id="send-btn" onclick="sendMessage()" title="Hantar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+      <p class="input-hint">Tekan Enter untuk hantar · Shift+Enter untuk baris baru</p>
+    </div>
+
+  </div>
+
+  <script>
+    /* ─── CONFIG ─────────────────────────────────────────── */
+    const API_KEY = "AIzaSyBnKqo-eEEMTCQECE5j5atgF2UjW8vs0GI";
+    // Upgraded from deprecated gemini-2.0-flash → gemini-2.5-flash
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+
+    const SYSTEM_PROMPT = `You are 🍽️ MinPanda Food Advisor.
+
+You help people decide what food to eat when they are unsure.
+
+Always begin every response with:
+🍽️ MinPanda Food Advisor
+
+Speak mainly in casual Malaysian Malay.
+
+Be friendly, relaxed and conversational, like a friend helping another friend decide what to eat.
+
+Recommend 3-5 suitable food options.
+
+Briefly explain why each option fits the user's request.
+
+Consider mood, cravings, budget, weather and meal timing.
+
+Keep responses concise and easy to read.
+
+Use emojis occasionally.
+
+Avoid formal language.
+
+Maximum around 120 words.`;
+
+    /* ─── STATE ──────────────────────────────────────────── */
+    let isLoading = false;
+    let conversationHistory = [];
+
+    /* ─── DOM REFS ───────────────────────────────────────── */
+    const chatArea = document.getElementById("chat-area");
+    const userInput = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+    const welcomeSec = document.getElementById("welcome-section");
+    const suggSec = document.getElementById("suggestions-section");
+
+    /* ─── AUTO-GROW TEXTAREA ─────────────────────────────── */
+    userInput.addEventListener("input", () => {
+      userInput.style.height = "auto";
+      userInput.style.height = Math.min(userInput.scrollHeight, 120) + "px";
+    });
+
+    /* ─── ENTER TO SEND ──────────────────────────────────── */
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    /* ─── HELPERS ─────────────────────────────────────────── */
+    function getTime() {
+      return new Date().toLocaleTimeString("ms-MY", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function hideWelcome() {
+      if (welcomeSec) welcomeSec.style.display = "none";
+      if (suggSec) suggSec.style.display = "none";
+    }
+
+    function scrollToBottom() {
+      chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: "smooth" });
+    }
+
+    /* ─── RENDER USER BUBBLE ─────────────────────────────── */
+    function appendUserMessage(text) {
+      const msg = document.createElement("div");
+      msg.className = "message user";
+      msg.innerHTML = `
+      <div class="avatar">🙂</div>
+      <div class="bubble">
+        ${escapeHtml(text)}
+        <span class="bubble-time">${getTime()}</span>
+      </div>`;
+      chatArea.appendChild(msg);
+      scrollToBottom();
+    }
+
+    /* ─── RENDER AI BUBBLE ───────────────────────────────── */
+    function appendAiMessage(text) {
+      const msg = document.createElement("div");
+      msg.className = "message ai";
+      msg.innerHTML = `
+      <div class="avatar">🍽️</div>
+      <div class="bubble">
+        ${formatAiText(text)}
+        <span class="bubble-time">${getTime()}</span>
+      </div>`;
+      chatArea.appendChild(msg);
+      scrollToBottom();
+    }
+
+    /* ─── TYPING INDICATOR ───────────────────────────────── */
+    function showTyping() {
+      const el = document.createElement("div");
+      el.className = "message ai";
+      el.id = "typing-indicator";
+      el.innerHTML = `
+      <div class="avatar">🍽️</div>
+      <div class="typing-bubble">
+        <div class="typing-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>`;
+      chatArea.appendChild(el);
+      scrollToBottom();
+      return el;
+    }
+
+    function hideTyping() {
+      const el = document.getElementById("typing-indicator");
+      if (el) el.remove();
+    }
+
+    /* ─── ERROR BUBBLE ───────────────────────────────────── */
+    function appendError(msg) {
+      const el = document.createElement("div");
+      el.className = "error-bubble";
+      el.style.animation = "fadeInUp 0.35s ease both";
+      el.innerHTML = `⚠️ ${escapeHtml(msg)}`;
+      chatArea.appendChild(el);
+      scrollToBottom();
+    }
+
+    /* ─── FORMAT AI RESPONSE ─────────────────────────────── */
+    function formatAiText(raw) {
+      // Convert markdown-ish bold **text** and *text* to <strong>
+      let html = raw
+        .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.*?)\*/g, "<em>$1</em>")
+        // Numbered list lines
+        .replace(/^\d+\.\s+/gm, (m) => `<strong>${m}</strong>`)
+        // Newlines to <br>
+        .replace(/\n/g, "<br>");
+      return html;
+    }
+
+    /* ─── ESCAPE HTML ────────────────────────────────────── */
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/\n/g, "<br>");
+    }
+
+    /* ─── SET LOADING STATE ──────────────────────────────── */
+    function setLoading(state) {
+      isLoading = state;
+      sendBtn.disabled = state;
+      userInput.disabled = state;
+    }
+
+    /* ─── SEND SUGGESTION CHIP ───────────────────────────── */
+    function sendSuggestion(text) {
+      if (isLoading) return;
+      userInput.value = text;
+      sendMessage();
+    }
+
+    /* ─── MAIN SEND ──────────────────────────────────────── */
+    async function sendMessage() {
+      const text = userInput.value.trim();
+      if (!text || isLoading) return;
+
+      hideWelcome();
+
+      // Clear input
+      userInput.value = "";
+      userInput.style.height = "auto";
+
+      // Show user message
+      appendUserMessage(text);
+      setLoading(true);
+
+      // Add to history
+      conversationHistory.push({ role: "user", parts: [{ text }] });
+
+      // Show typing
+      showTyping();
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+            contents: conversationHistory,
+            generationConfig: {
+              temperature: 0.85,
+              maxOutputTokens: 1024,  // raised: 512 caused mid-sentence truncation
+            }
+          })
+        });
+
+        // ── Read body ONCE, then branch on status ──────────────
+        const rawText = await response.text();
+        console.log(`[MinPanda] HTTP ${response.status}`, rawText);
+
+        if (!response.ok) {
+          // Parse the error body for a human-readable message
+          let apiMsg = `HTTP ${response.status}`;
+          try {
+            const errData = JSON.parse(rawText);
+            apiMsg = errData?.error?.message || apiMsg;
+          } catch (_) { /* not JSON — use status string */ }
+
+          // Attach the HTTP status code to the error for accurate classification
+          const e = new Error(apiMsg);
+          e.httpStatus = response.status;
+          throw e;
+        }
+
+        const data = JSON.parse(rawText);
+        const candidate = data?.candidates?.[0];
+        const finishReason = candidate?.finishReason;
+        const allParts    = candidate?.content?.parts ?? [];
+
+        // ── Collect ALL parts (Gemini 2.5 may split thinking + answer across parts)
+        console.log("[MinPanda] parts count:", allParts.length, "finishReason:", finishReason);
+        allParts.forEach((p, i) =>
+          console.log(`[MinPanda] parts[${i}]:`, JSON.stringify(p).slice(0, 200))
+        );
+
+        // Join every text-bearing part to get the complete reply
+        const aiText = allParts.map(p => p.text ?? "").join("").trim();
+
+        if (!aiText) {
+          console.warn("[MinPanda] Empty response. finishReason:", finishReason, data);
+          throw new Error("Respons kosong dari AI. finishReason: " + (finishReason || "unknown"));
+        }
+
+        if (finishReason === "MAX_TOKENS") {
+          // Response was cut by token limit — still show what we got but warn in console
+          console.warn("[MinPanda] Response hit MAX_TOKENS limit — consider raising maxOutputTokens.");
+        }
+
+        hideTyping();
+
+        // ── Store the FULL parts array in history so the model has correct context
+        conversationHistory.push({
+          role: "model",
+          parts: allParts.length > 0 ? allParts : [{ text: aiText }]
+        });
+
+        appendAiMessage(aiText);
+
+      } catch (err) {
+        hideTyping();
+        console.error("[MinPanda] Error:", err.message, err);
+
+        // ── Classify error by HTTP status code first, then message string ──
+        const status = err.httpStatus;
+        let friendly;
+
+        if (err.message === "Failed to fetch" || err.message === "Load failed" ||
+            err.message?.includes("NetworkError")) {
+          friendly = "⚠️ Tiada sambungan internet. Semak connection kau ya! 📶";
+        } else if (status === 401 || status === 403 ||
+                   err.message?.toLowerCase().includes("api key") ||
+                   err.message?.toLowerCase().includes("api_key")) {
+          friendly = "⚠️ API Key tidak sah atau tiada kebenaran. Semak API Key kau.";
+        } else if (status === 429 || err.message?.toLowerCase().includes("resource_exhausted")) {
+          friendly = "⚠️ Had API dah penuh. Cuba lagi dalam beberapa minit ya. 🕐";
+        } else if (status >= 500) {
+          friendly = "⚠️ Server Gemini ada masalah sekarang. Cuba sekali lagi ya! 🛠️";
+        } else if (err.message?.includes("Respons kosong")) {
+          friendly = "⚠️ AI tak bagi respons. Cuba hantar mesej lain ya! 🤔";
+        } else {
+          // Show actual API error so user can diagnose
+          friendly = `⚠️ Ralat: ${err.message}`;
+        }
+
+        appendError(friendly);
+      } finally {
+        setLoading(false);
+        userInput.focus();
+      }
+    }
+  </script>
+
+</body>
+
+</html>

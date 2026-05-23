@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - MinPanda Food</title>
+    <title>Shop Reviews - MinPanda Food</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,25 +17,12 @@
     </header>
     <hr class="minpanda-divider">
 
-    <main class="login-wrapper">
-        <div class="login-card">
-            <div class="login-icon">🐼🔐</div>
-            <h1>Admin Access</h1>
-            <p>Enter your password to manage the system</p>
-            <p>Aku Je woi Boleh masuk</p>
+    <main class="page-content">
+        <h1 class="reviews-heading">Shop Reviews ⭐</h1>
+        <p class="reviews-subheading">Rate and comment on your favourite stalls</p>
 
-            <div class="input-group">
-                <input 
-                    type="password" 
-                    id="password" 
-                    placeholder="Enter Password"
-                />
-            </div>
-
-            <button class="login-btn" onclick="login()">
-                Login
-            </button>
-        </div>
+        <!-- Shop cards are rendered here by reviews.js -->
+        <div id="shops-container"></div>
     </main>
 
     <footer class="minpanda-footer">
@@ -44,6 +31,6 @@
         </p>
     </footer>
 
-    <script type="module" src="admin-login.js"></script>
+    <script type="module" src="reviews.js"></script>
 </body>
 </html>
