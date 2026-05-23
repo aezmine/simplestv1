@@ -1,5 +1,23 @@
+/* ==========================================================
+   MinPanda Food — Unified Stylesheet
+   All page styles consolidated here.
+   ========================================================== */
+
+
 /* =========================
-   MinPanda Navigation Bar
+   1. BASE / RESET
+   ========================= */
+
+body {
+    background-color: #f8f9fa;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+}
+
+
+/* =========================
+   2. NAVIGATION BAR
    ========================= */
 
 .minpanda-header {
@@ -45,20 +63,29 @@
     margin: 0 0 20px 0;
 }
 
-/* Base App Layout (Below the Header) */
-body {
-    background-color: #f8f9fa; /* Light gray background to make white cards pop */
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
 
-.app-content {
-    max-width: 480px; /* Mobile-first width */
+/* =========================
+   3. PAGE LAYOUT (shared wrapper)
+   ========================= */
+
+.page-content {
+    max-width: 800px;
     margin: 0 auto;
     padding: 24px 16px;
 }
 
-/* Welcome Banner Styling */
+
+/* =========================
+   4. HOME PAGE
+   ========================= */
+
+.app-content {
+    max-width: 480px; /* Mobile-first width for home hero */
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+/* Welcome Banner */
 .welcome-banner {
     margin-bottom: 30px;
 }
@@ -92,7 +119,6 @@ body {
     gap: 16px;
 }
 
-/* Individual Card Styling */
 .action-card {
     display: flex;
     align-items: center;
@@ -105,7 +131,6 @@ body {
     transition: all 0.25s ease;
 }
 
-/* Hover & Active States */
 @media (hover: hover) {
     .action-card:hover {
         transform: translateY(-3px);
@@ -116,20 +141,17 @@ body {
     transform: translateY(1px);
 }
 
-/* Highlight the Main "Place Order" Button */
 .primary-card {
-    background-color: #fffbdf; /* Light MinPanda Yellow */
-    border-color: #ffcf24; /* Solid MinPanda Yellow */
+    background-color: #fffbdf;
+    border-color: #ffcf24;
 }
 
-/* Style the Admin button differently to separate it from customer actions */
-.admin-card {
+.home-admin-card {
     margin-top: 10px;
     background-color: #f0f0f0;
     opacity: 0.9;
 }
 
-/* Card Internals */
 .card-icon {
     font-size: 2rem;
     margin-right: 16px;
@@ -171,19 +193,565 @@ body {
 .action-card:hover .card-arrow {
     color: #ffcf24;
 }
-/* Footer Container */
+
+
+/* =========================
+   5. LOGIN PAGE
+   ========================= */
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    margin-top: 20px;
+}
+
+.login-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 20px;
+    padding: 32px 24px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    border-top: 6px solid #ffcf24;
+}
+
+.login-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+}
+
+.login-card h1 {
+    margin: 0 0 8px 0;
+    font-size: 1.6rem;
+    color: #1a1a1a;
+    font-weight: 800;
+}
+
+.login-card p {
+    margin: 0 0 24px 0;
+    font-size: 0.9rem;
+    color: #757575;
+}
+
+/* Login Input */
+.input-group {
+    margin-bottom: 24px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: #fcfcfc;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #ffcf24;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 207, 36, 0.15);
+}
+
+/* Login Button */
+.login-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: #ffcf24;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(255, 207, 36, 0.3);
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(255, 207, 36, 0.4);
+    background-color: #ffc910;
+}
+
+.login-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(255, 207, 36, 0.3);
+}
+
+
+/* =========================
+   6. CUSTOMER / ORDER PAGE
+   ========================= */
+
+.page-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #2c2c2c;
+}
+
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+}
+
+.food-card {
+    background-color: #ffffff;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    padding: 12px;
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.food-card:hover {
+    transform: translateY(-4px);
+}
+
+.food-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    background-color: #f0f0f0;
+}
+
+.food-card p {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.check-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ffcf24;
+    color: #1a1a1a;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s ease;
+}
+
+.food-card.selected {
+    border-color: #ffcf24;
+    background-color: #fffbdf;
+    box-shadow: 0 8px 20px rgba(255, 207, 36, 0.25);
+}
+
+.food-card.selected .check-badge {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.selection-panel {
+    margin-top: 25px;
+    padding: 16px;
+    background: white;
+    border-radius: 14px;
+    border-left: 4px solid #ffcf24;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.selection-panel p {
+    margin: 0;
+}
+
+#selectedFood {
+    font-weight: bold;
+}
+
+/* Customer form inputs */
+.page-content input,
+.page-content textarea {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #fcfcfc;
+    transition: all 0.3s ease;
+}
+
+.page-content input:focus,
+.page-content textarea:focus {
+    outline: none;
+    border-color: #ffcf24;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 207, 36, 0.15);
+}
+
+/* Customer submit button */
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background-color: #ffcf24;
+    color: #1a1a1a;
+    border: none;
+    border-radius: 12px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(255, 207, 36, 0.3);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(255, 207, 36, 0.4);
+    background-color: #ffc910;
+}
+
+.submit-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(255, 207, 36, 0.3);
+}
+
+
+/* =========================
+   7. QUEUE PAGE
+   ========================= */
+
+.page-content h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 20px 0;
+}
+
+/* Queue Container */
+#orders {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Queue Card */
+.queue-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-left: 6px solid #ffcf24;
+    transition: transform 0.2s ease;
+}
+
+.queue-card.status-delivered { border-left-color: #4caf50; }
+.queue-card.status-rejected { border-left-color: #f44336; }
+
+/* Queue Header */
+.queue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.queue-number {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.badge-pending { background-color: #fffbdf; color: #d49a00; }
+.badge-delivered { background-color: #eef7ee; color: #4caf50; }
+.badge-rejected { background-color: #fdeeea; color: #f44336; }
+.badge-default { background-color: #f0f0f0; color: #555; }
+
+/* Queue Details Grid */
+.queue-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.detail-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-label {
+    font-size: 0.75rem;
+    color: #757575;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.detail-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.full-width { grid-column: span 2; }
+
+/* Admin Message in Queue */
+.admin-msg {
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #555;
+    border-left: 3px solid #d4d4d4;
+    margin-top: 8px;
+}
+
+/* Queue Footer */
+.queue-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px dashed #e0e0e0;
+    font-size: 0.8rem;
+    color: #757575;
+}
+
+.timer-badge {
+    background: #f0f0f0;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+
+/* =========================
+   8. ADMIN DASHBOARD
+   ========================= */
+
+/* Admin Order Card */
+.admin-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    border-top: 6px solid #1a1a1a;
+}
+
+.admin-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.customer-info h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.25rem;
+    color: #1a1a1a;
+}
+
+.order-time {
+    font-size: 0.8rem;
+    color: #757575;
+}
+
+/* Admin Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-group.full-width {
+    grid-column: span 2;
+}
+
+.info-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #a0a0a0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.note-box {
+    background: #fffbdf;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #d49a00;
+    border-left: 3px solid #ffcf24;
+}
+
+/* Admin Controls Section */
+.admin-controls {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
+
+.control-group {
+    margin-bottom: 16px;
+}
+
+.control-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+}
+
+/* Modern Inputs (admin) */
+.app-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d4d4d4;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.app-input:focus {
+    outline: none;
+    border-color: #ffcf24;
+    box-shadow: 0 0 0 3px rgba(255, 207, 36, 0.2);
+}
+
+select.app-input {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23131313%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px top 50%;
+    background-size: 12px auto;
+}
+
+/* Admin Buttons */
+.button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-save {
+    background-color: #ffcf24;
+    color: #1a1a1a;
+    box-shadow: 0 4px 10px rgba(255, 207, 36, 0.2);
+}
+.btn-save:hover { transform: translateY(-2px); background-color: #ffc910; }
+
+.btn-delete {
+    background-color: #fff0f0;
+    color: #dc3545;
+    border: 1px solid #ffcccc;
+}
+.btn-delete:hover { transform: translateY(-2px); background-color: #ffe6e6; }
+
+/* Logout Button */
+.logout-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 24px;
+    background-color: #f0f0f0;
+    color: #757575;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background-color: #e0e0e0;
+    color: #1a1a1a;
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   9. FOOTER
+   ========================= */
+
 .minpanda-footer {
     text-align: center;
     padding: 40px 20px 20px 20px;
-    margin-top: auto; /* Pushes footer to the bottom if content is short */
+    margin-top: auto;
     background-color: transparent;
 }
 
-/* Minimalist Text Styling */
 .minpanda-footer p {
     margin: 0;
     font-size: 0.8rem;
-    color: #a0a0a0; /* Very soft gray */
+    color: #a0a0a0;
     font-weight: 500;
     letter-spacing: 0.5px;
     display: flex;
@@ -194,17 +762,13 @@ body {
     cursor: default;
 }
 
-/* * The Copyleft Trick: 
- * Flips the standard copyright symbol horizontally 
- */
 .copyleft {
     display: inline-block;
     transform: scaleX(-1);
     font-size: 1rem;
-    margin-top: -2px; /* Vertically aligns it perfectly with lowercase text */
+    margin-top: -2px;
 }
 
-/* Cool subtle hover effect */
 .minpanda-footer p:hover {
-    color: #1a1a1a; /* Darkens to black on hover */
+    color: #1a1a1a;
 }

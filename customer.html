@@ -3,270 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>MinPanda Food - Order</title>
-
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #1a1a1a;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        header {
-            margin-bottom: 20px;
-        }
-
-        header a {
-            text-decoration: none;
-            margin-right: 15px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        h3 {
-            font-size: 1.4rem;
-            margin-bottom: 20px;
-            color: #2c2c2c;
-        }
-
-        .food-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 16px;
-        
-        }
-
-        .food-card {
-            background-color: #ffffff;
-            border: 2px solid transparent;
-            border-radius: 16px;
-            padding: 12px;
-            cursor: pointer;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-            transition: all 0.25s ease;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .food-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .food-card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            background-color: #f0f0f0;
-        }
-
-        .food-card p {
-            margin: 0;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .check-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #ffcf24;
-            color: #1a1a1a;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.3s ease;
-        }
-
-        .food-card.selected {
-            border-color: #ffcf24;
-            background-color: #fffbdf;
-            box-shadow: 0 8px 20px rgba(255, 207, 36, 0.25);
-        }
-
-        .food-card.selected .check-badge {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .selection-panel {
-            margin-top: 25px;
-            padding: 16px;
-            background: white;
-            border-radius: 14px;
-            border-left: 4px solid #ffcf24;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .selection-panel p {
-            margin: 0;
-        }
-
-        #selectedFood {
-            font-weight: bold;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            box-sizing: border-box;
-            margin-top: 10px;
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <header class="minpanda-header">
+        <a href="index.html">🏠 Home</a>
+        <a href="customer.html">🍔 Order Food</a>
+        <a href="queue.html">📋 Queue</a>
+        <a href="admin-login.html">⚙️ Admin</a>
+    </header>
+    <hr class="minpanda-divider">
 
-<header class="minpanda-header">
+    <main class="page-content">
+        <h3>Select Your Food</h3>
 
-    <a href="index.html">🏠 Home</a>
+        <div class="food-grid">
+            <div class="food-card" data-food="Geprek Farisz Bistro">
+                <div class="check-badge">✓</div>
+                <img src="assets/p1.jpg" alt="">
+                <p>Geprek Farisz Bistro</p>
+            </div>
 
-    <a href="customer.html">🍔 Order Food</a>
+            <div class="food-card" data-food="Nasi Arab Limbong">
+                <div class="check-badge">✓</div>
+                <img src="assets/p2.jpg" alt="">
+                <p>Nasi Arab Limbong</p>
+            </div>
 
-    <a href="queue.html">📋 Queue</a>
+            <div class="food-card" data-food="Nasi Ayam Limbong">
+                <div class="check-badge">✓</div>
+                <img src="assets/p3.jpg" alt="">
+                <p>Nasi Ayam Limbong</p>
+            </div>
 
-    <a href="admin-login.html">⚙️ Admin</a>
+            <div class="food-card" data-food="Burger Apiq">
+                <div class="check-badge">✓</div>
+                <img src="assets/p4.jpg" alt="">
+                <p>Burger Apiq</p>
+            </div>
 
-</header>
+            <div class="food-card" data-food="Burger Ngosek">
+                <div class="check-badge">✓</div>
+                <img src="assets/p5.jpg" alt="">
+                <p>Burger Ngosek</p>
+            </div>
 
-<hr class="minpanda-divider">
+            <div class="food-card" data-food="Nasi Kandar Pak Damat">
+                <div class="check-badge">✓</div>
+                <img src="assets/p6.jpg" alt="">
+                <p>Nasi Kandar Pak Damat</p>
+            </div>
 
-<hr>
+            <div class="food-card" data-food="Sri Andaman">
+                <div class="check-badge">✓</div>
+                <img src="assets/p7.jpg" alt="">
+                <p>Sri Andaman</p>
+            </div>
 
-<h3>Select Your Food</h3>
+            <div class="food-card custom-food-card" data-food="CUSTOM">
+                <div class="check-badge">✓</div>
+                <div style="
+                    height:120px;
+                    border-radius:12px;
+                    background:#f0f0f0;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    margin-bottom:12px;
+                    font-size:40px;
+                ">
+                    ✏️
+                </div>
+                <p>Custom Order</p>
+            </div>
+        </div>
 
-<div class="food-grid">
+        <input type="hidden" id="food">
 
-    <div class="food-card" data-food="Geprek Farisz Bistro">
-        <div class="check-badge">✓</div>
-        <img src="assets/p1.jpg" alt="">
-        <p>Geprek Farisz Bistro</p>
-    </div>
+        <div class="selection-panel">
+            <p>Currently Selected:</p>
+            <span id="selectedFood">None</span>
+        </div>
 
-    <div class="food-card" data-food="Nasi Arab Limbong">
-        <div class="check-badge">✓</div>
-        <img src="assets/p2.jpg" alt="">
-        <p>Nasi Arab Limbong</p>
-    </div>
+        <div id="customFoodContainer" style="display:none; margin-top:15px;">
+            <input
+                id="customFood"
+                placeholder="Contoh: Nasi Goreng Telur, Air Milo Ais..."
+            >
+        </div>
 
-    <div class="food-card" data-food="Nasi Ayam Limbong">
-        <div class="check-badge">✓</div>
-        <img src="assets/p3.jpg" alt="">
-        <p>Nasi Ayam Limbong</p>
-    </div>
+        <br>
 
-    <div class="food-card" data-food="Burger Apiq">
-        <div class="check-badge">✓</div>
-        <img src="assets/p4.jpg" alt="">
-        <p>Burger Apiq</p>
-    </div>
+        <input
+            id="name"
+            placeholder="Enter Name"
+        >
 
-    <div class="food-card" data-food="Burger Ngosek">
-        <div class="check-badge">✓</div>
-        <img src="assets/p5.jpg" alt="">
-        <p>Burger Ngosek</p>
-    </div>
+        <textarea
+            id="customerNote"
+            rows="4"
+            placeholder="Pesanan tambahan (contoh: tak nak sayur, extra kuah)"
+        ></textarea>
 
-    <div class="food-card" data-food="Nasi Kandar Pak Damat">
-        <div class="check-badge">✓</div>
-        <img src="assets/p6.jpg" alt="">
-        <p>Nasi Kandar Pak Damat</p>
-    </div>
+        <br><br>
 
-    <div class="food-card" data-food="Sri Andaman">
-        <div class="check-badge">✓</div>
-        <img src="assets/p7.jpg" alt="">
-        <p>Sri Andaman</p>
-    </div>
+        <button class="submit-btn" onclick="submitOrder()">
+            Submit Order
+        </button>
+    </main>
 
-    <div class="food-card custom-food-card" data-food="CUSTOM">
-    <div class="check-badge">✓</div>
+    <footer class="minpanda-footer">
+        <p>
+            <span class="copyleft">&copy;</span> copyleft by min - 2026
+        </p>
+    </footer>
 
-    <div style="
-        height:120px;
-        border-radius:12px;
-        background:#f0f0f0;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        margin-bottom:12px;
-        font-size:40px;
-    ">
-        ✏️
-    </div>
-
-    <p>Custom Order</p>
-</div>
-
-</div>
-
-<input type="hidden" id="food">
-
-<div class="selection-panel">
-    <p>Currently Selected:</p>
-    <span id="selectedFood">None</span>
-</div>
-
-<div
-    id="customFoodContainer"
-    style="
-        display:none;
-        margin-top:15px;
-    "
->
-
-    <input
-        id="customFood"
-        placeholder="Contoh: Nasi Goreng Telur, Air Milo Ais..."
-    >
-
-</div>
-
-<br>
-
-<input
-    id="name"
-    placeholder="Enter Name"
->
-
-<textarea
-    id="customerNote"
-    rows="4"
-    placeholder="Pesanan tambahan (contoh: tak nak sayur, extra kuah)"
-></textarea>
-
-<br><br>
-
-<button onclick="submitOrder()">
-    Submit Order
-</button>
-<script type="module" src="customer.js"></script>
-<footer class="minpanda-footer">
-    <p>
-        <span class="copyleft">&copy;</span> copyleft by min - 2026
-    </p>
-</footer>
+    <script type="module" src="customer.js"></script>
 </body>
 </html>

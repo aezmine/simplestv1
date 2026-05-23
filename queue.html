@@ -1,36 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Order Queue</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Queue - MinPanda Food</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header class="minpanda-header">
+        <a href="index.html">🏠 Home</a>
+        <a href="customer.html">🍔 Order Food</a>
+        <a href="queue.html">📋 Queue</a>
+        <a href="admin-login.html">⚙️ Admin</a>
+    </header>
+    <hr class="minpanda-divider">
 
-<header class="minpanda-header">
+    <main class="page-content">
+        <h1>Live Order Queue</h1>
+        <div id="orders"></div>
+    </main>
 
-    <a href="index.html">🏠 Home</a>
+    <footer class="minpanda-footer">
+        <p>
+            <span class="copyleft">&copy;</span> copyleft by min - 2026
+        </p>
+    </footer>
 
-    <a href="customer.html">🍔 Order Food</a>
-
-    <a href="queue.html">📋 Queue</a>
-
-    <a href="admin-login.html">⚙️ Admin</a>
-
-</header>
-
-<hr class="minpanda-divider">
-
-<hr>
-
-<h1>Live Order Queue</h1>
-
-<div id="orders"></div>
-
-<script type="module" src="queue.js"></script>
-<footer class="minpanda-footer">
-    <p>
-        <span class="copyleft">&copy;</span> copyleft by min - 2026
-    </p>
-</footer>
+    <script type="module" src="queue.js"></script>
 </body>
 </html>
