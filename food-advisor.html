@@ -74,9 +74,8 @@
 
   <script>
     /* ─── CONFIG ─────────────────────────────────────────── */
-    const API_KEY = "AIzaSyBnKqo-eEEMTCQECE5j5atgF2UjW8vs0GI";
-    // Upgraded from deprecated gemini-2.0-flash → gemini-2.5-flash
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+    const API_URL = "/api/chat";
+    const API_MODEL = "llama-3.3-70b-versatile";
 
     const SYSTEM_PROMPT = `You are 🍽️ MinPanda Food Advisor.
 
@@ -254,8 +253,8 @@ Maximum around 120 words.`;
       appendUserMessage(text);
       setLoading(true);
 
-      // Add to history
-      conversationHistory.push({ role: "user", parts: [{ text }] });
+      // Add to history (OpenAI / Groq format)
+      conversationHistory.push({ role: "user", content: text });
 
       // Show typing
       showTyping();
@@ -263,14 +262,17 @@ Maximum around 120 words.`;
       try {
         const response = await fetch(API_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify({
-            system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-            contents: conversationHistory,
-            generationConfig: {
-              temperature: 0.85,
-              maxOutputTokens: 1024,  // raised: 512 caused mid-sentence truncation
-            }
+            model: API_MODEL,
+            messages: [
+              { role: "system", content: SYSTEM_PROMPT },
+              ...conversationHistory
+            ],
+            temperature: 0.85,
+            max_tokens: 1024
           })
         });
 
@@ -293,35 +295,28 @@ Maximum around 120 words.`;
         }
 
         const data = JSON.parse(rawText);
-        const candidate = data?.candidates?.[0];
-        const finishReason = candidate?.finishReason;
-        const allParts    = candidate?.content?.parts ?? [];
+        const choice = data?.choices?.[0];
+        const finishReason = choice?.finish_reason;
+        const aiText = choice?.message?.content?.trim() || "";
 
-        // ── Collect ALL parts (Gemini 2.5 may split thinking + answer across parts)
-        console.log("[MinPanda] parts count:", allParts.length, "finishReason:", finishReason);
-        allParts.forEach((p, i) =>
-          console.log(`[MinPanda] parts[${i}]:`, JSON.stringify(p).slice(0, 200))
-        );
-
-        // Join every text-bearing part to get the complete reply
-        const aiText = allParts.map(p => p.text ?? "").join("").trim();
+        console.log("[MinPanda] finishReason:", finishReason);
 
         if (!aiText) {
           console.warn("[MinPanda] Empty response. finishReason:", finishReason, data);
           throw new Error("Respons kosong dari AI. finishReason: " + (finishReason || "unknown"));
         }
 
-        if (finishReason === "MAX_TOKENS") {
+        if (finishReason === "length") {
           // Response was cut by token limit — still show what we got but warn in console
-          console.warn("[MinPanda] Response hit MAX_TOKENS limit — consider raising maxOutputTokens.");
+          console.warn("[MinPanda] Response hit max_tokens limit — consider raising max_tokens.");
         }
 
         hideTyping();
 
-        // ── Store the FULL parts array in history so the model has correct context
+        // ── Store assistant response in history so the model has correct context
         conversationHistory.push({
-          role: "model",
-          parts: allParts.length > 0 ? allParts : [{ text: aiText }]
+          role: "assistant",
+          content: aiText
         });
 
         appendAiMessage(aiText);
@@ -339,12 +334,14 @@ Maximum around 120 words.`;
           friendly = "⚠️ Tiada sambungan internet. Semak connection kau ya! 📶";
         } else if (status === 401 || status === 403 ||
                    err.message?.toLowerCase().includes("api key") ||
-                   err.message?.toLowerCase().includes("api_key")) {
+                   err.message?.toLowerCase().includes("api_key") ||
+                   err.message?.toLowerCase().includes("unauthorized")) {
           friendly = "⚠️ API Key tidak sah atau tiada kebenaran. Semak API Key kau.";
-        } else if (status === 429 || err.message?.toLowerCase().includes("resource_exhausted")) {
+        } else if (status === 429 || err.message?.toLowerCase().includes("resource_exhausted") ||
+                   err.message?.toLowerCase().includes("rate limit")) {
           friendly = "⚠️ Had API dah penuh. Cuba lagi dalam beberapa minit ya. 🕐";
         } else if (status >= 500) {
-          friendly = "⚠️ Server Gemini ada masalah sekarang. Cuba sekali lagi ya! 🛠️";
+          friendly = "⚠️ Server Groq ada masalah sekarang. Cuba sekali lagi ya! 🛠️";
         } else if (err.message?.includes("Respons kosong")) {
           friendly = "⚠️ AI tak bagi respons. Cuba hantar mesej lain ya! 🤔";
         } else {
